@@ -1,11 +1,14 @@
 import { When } from "@cucumber/cucumber";
+import { Situation } from "secrethistories-api";
 
 import { api } from "../../api.js";
-import { GetSituationResponse, Situation } from "bookofhours-api";
 
-When(/^(\d+(?:\.\d+)?) seconds have elapsed$/, async (seconds: string) => {
-  await api.passTime(Number(seconds));
-});
+When(
+  /^(\d+(?:\.\d+)?) second(?:s?) (?:(?:have)|(?:has)) elapsed$/,
+  async (seconds: string) => {
+    await api.passTime(Number(seconds));
+  }
+);
 
 When(/^the next day arrives$/, async () => {
   let dayToken: Situation;

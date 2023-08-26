@@ -1,8 +1,9 @@
 import { DataTable, Then } from "@cucumber/cucumber";
 import assert from "assert";
-import { aspectsMatch, combineAspects } from "bookofhours-api";
+import { aspectsMatch, combineAspects } from "secrethistories-api";
 
 import { api } from "../../api.js";
+import { aspectsFromTable } from "../../utils.js";
 
 Then(/^I should have the following cards:$/, async (dataTable: DataTable) => {
   const tokens = await api.getElementStacksInHand();
@@ -48,11 +49,7 @@ Then(
   async (elementId: string, dataTable: DataTable) => {
     const tokens = await api.getElementStacksInHand();
 
-    const reqs = dataTable.hashes();
-    const aspects = reqs.reduce((obj, req) => {
-      obj[req.aspect] = Number(req.amount);
-      return obj;
-    }, {} as Record<string, number>);
+    const aspects = aspectsFromTable(dataTable);
 
     for (const token of tokens) {
       if (token.payloadType != "ElementStack") {

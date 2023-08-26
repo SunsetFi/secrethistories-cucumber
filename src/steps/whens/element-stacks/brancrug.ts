@@ -1,7 +1,8 @@
 import { DataTable, When } from "@cucumber/cucumber";
 
 import { api } from "../../../api.js";
-import { aspectsMatch, combineAspects } from "bookofhours-api";
+import { aspectsMatch, combineAspects } from "secrethistories-api";
+import { aspectsFromTable } from "../../../utils.js";
 
 When(
   /^I drag the (\S+) card to the (\S+) brancrug building (\S+) slot$/,
@@ -31,11 +32,7 @@ When(
 
     const elements = await api.getElementStacksInHand();
 
-    const reqs = dataTable.hashes();
-    const aspects = reqs.reduce((obj, req) => {
-      obj[req.aspect] = Number(req.amount);
-      return obj;
-    }, {} as Record<string, number>);
+    const aspects = aspectsFromTable(dataTable);
 
     const element = elements.find((x) =>
       aspectsMatch(combineAspects(x.elementAspects, x.mutations), aspects)

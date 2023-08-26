@@ -224,9 +224,22 @@ The verb targeted by this command is the singular token at the path `~/library!b
 Example:
 
 ```feature
-Then the kiles brancrug building should contain an output card with the following aspects:
-  | aspect    | amount |
+Then the kiles brancrug building should contain the following output:
+  | elementId | amount |
   | health    | 1      |
+```
+
+#### Then the [buildingId] brancrug building should not contain the following output:
+
+Checks that the given building output sphere has any element with the given aspects.
+The verb targeted by this command is the singular token at the path `~/library!brancrug/buildingslot[buildingId]`.
+
+Example:
+
+```feature
+Then the kiles brancrug building should not contain the following output:
+  | elementId |
+  | health    |
 ```
 
 #### Then the started recipe should be [recipeId]

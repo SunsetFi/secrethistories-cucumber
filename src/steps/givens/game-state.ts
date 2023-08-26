@@ -1,5 +1,5 @@
 import { Given } from "@cucumber/cucumber";
-import { LegacyId } from "bookofhours-api";
+import { LegacyId } from "secrethistories-api";
 
 import { api } from "../../api.js";
 import { BookOfHoursWorld } from "../../world.js";

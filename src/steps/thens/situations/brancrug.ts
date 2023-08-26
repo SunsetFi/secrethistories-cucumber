@@ -108,3 +108,29 @@ Then(
     }
   }
 );
+
+Then(
+  /^the (\S+) brancrug building should not contain the following output:$/,
+  async (buildingId: string, dataTable: DataTable) => {
+    const situation = await api.getBrancrugSituation(buildingId);
+    if (!situation) {
+      throw new Error(`The ${buildingId} building does not exist.`);
+    }
+
+    const tokens = await api.getSituationOutputTokens(situation);
+
+    for (const item of dataTable.hashes()) {
+      const { elementId } = item;
+      for (const token of tokens) {
+        if (
+          token.payloadType === "ElementStack" &&
+          token.elementId === elementId
+        ) {
+          throw new Error(
+            `The ${buildingId} building contained a ${elementId} card when it should not.`
+          );
+        }
+      }
+    }
+  }
+);

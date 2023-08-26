@@ -1,8 +1,9 @@
 import assert from "assert";
-import { aspectsMatch, combineAspects } from "bookofhours-api";
+import { aspectsMatch, combineAspects } from "secrethistories-api";
 
 import { DataTable, Then } from "@cucumber/cucumber";
 import { api } from "../../../api.js";
+import { aspectsFromTable } from "../../../utils.js";
 
 Then(/^the (\S+) fixed verb should be available$/, async (verbId: string) => {
   const situation = await api.getFixedVerb(verbId);
@@ -81,11 +82,7 @@ Then(
 
     const tokens = await api.getSituationOutputTokens(situation);
 
-    const reqs = dataTable.hashes();
-    const aspects = reqs.reduce((obj, req) => {
-      obj[req.aspect] = Number(req.amount);
-      return obj;
-    }, {} as Record<string, number>);
+    const aspects = aspectsFromTable(dataTable);
 
     for (const token of tokens) {
       if (token.payloadType != "ElementStack") {
@@ -116,11 +113,7 @@ Then(
 
     const tokens = await api.getSituationOutputTokens(situation);
 
-    const reqs = dataTable.hashes();
-    const aspects = reqs.reduce((obj, req) => {
-      obj[req.aspect] = Number(req.amount);
-      return obj;
-    }, {} as Record<string, number>);
+    const aspects = aspectsFromTable(dataTable);
 
     for (const token of tokens) {
       if (token.payloadType != "ElementStack") {

@@ -19,6 +19,25 @@ Given(/^I have a(?:n?) (\S+) verb on the tabletop$/, async (verbId: string) => {
 });
 
 Given(
+  /^I have a(?:n?) (\S+) verb on the tabletop with recipe (\S+)$/,
+  async (verbId: string, recipeId: string) => {
+    try {
+      await api.createSituationAtPath("~/tabletop", {
+        verbId,
+        recipeId,
+      });
+    } catch (err: any) {
+      throwForStatus(err, {
+        [HttpStatusCodes.NOT_FOUND]: `Could not find the tabletop sphere.`,
+        [HttpStatusCodes.BAD_REQUEST]: `Cannot create a situation from verb id ${verbId} as the verb does not exist.`,
+      });
+
+      throw err;
+    }
+  }
+);
+
+Given(
   /^I have a(?:n?) (\S+) verb in the (\S+) sphere$/,
   async (verbId: string, spherePath: string) => {
     try {

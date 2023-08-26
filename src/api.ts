@@ -1,6 +1,6 @@
-import { BookOfHoursAPI, APINetworkError } from "bookofhours-api";
+import { CombinedGamesAPI, APINetworkError } from "secrethistories-api";
 
-export const api = new BookOfHoursAPI("http://localhost:8081");
+export const api = new CombinedGamesAPI("http://localhost:8081");
 
 export function throwForStatus(err: Error, messages: Record<number, string>) {
   if (err instanceof APINetworkError) {
